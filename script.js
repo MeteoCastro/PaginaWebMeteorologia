@@ -15,7 +15,7 @@ let weatherChart = null;
 document.addEventListener('DOMContentLoaded', () => {
     initializeChart();
     updateDashboard();
-    setInterval(updateDashboard, 300000);
+    setInterval(updateDashboard, 50000);
 });
 
 async function updateDashboard() {
