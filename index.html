@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteo Dashboard Pro</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="dashboard-header">
+                <h1>Meteo Pro 2025</h1>
+                <div class="current-time" id="current-time">Viernes 09:30</div>
+            </div>
+            
+            <div class="weather-cards">
+                <div class="card">
+                    <span class="material-icons icon">thermostat</span>
+                    <div class="metric-name">TEMPERATURA</div>
+                    <div class="metric-value"><span id="temperature">--</span><span class="metric-unit">°C</span></div>
+                    <div class="sub-section">
+                        <h2>Tendencia</h2>
+                        <div id="temp-trend">--</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="material-icons icon">water_drop</span>
+                    <div class="metric-name">HUMEDAD</div>
+                    <div class="metric-value"><span id="humidity">--</span><span class="metric-unit">%RH</span></div>
+                    <div class="sub-section">
+                        <h2>Variación</h2>
+                        <div id="humidity-variation">--</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="material-icons icon">waterfall_chart</span>
+                    <div class="metric-name">PRECIPITACIÓN</div>
+                    <div class="metric-value"><span id="precipitation">--</span><span class="metric-unit">ml/m³</span></div>
+                    <div class="sub-section">
+                        <h2>Acumulado</h2>
+                        <div id="precipitation-accumulated">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="chart-container">
+                <canvas id="weatherChart"></canvas>
+            </div>
+            
+            <div class="stats-panel">
+                <div class="sub-section">
+                    <h2>Estadísticas Clave</h2>
+                    <div class="image-gallery">
+                        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1561484930-974554019ade?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')"></div>
+                        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1580193769210-b8d1c049a7d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')"></div>
+                        <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1604537466573-5e94508fd243?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80')"></div>
+                    </div>
+                </div>
+
+                <div class="sub-section">
+                    <h2>Histórico Diario</h2>
+                    <div class="metric-value">▼ 15% variación</div>
+                    <div class="metric-unit">Comparación con día anterior</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
