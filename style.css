@@ -1,0 +1,195 @@
+:root {
+    --primary: #1a237e;
+    --secondary: #4a148c;
+    --accent: #00b0ff;
+    --text: #e8eaf6;
+    --glass: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: var(--text);
+    overflow: hidden;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.title {
+    margin: 0;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px var(--accent);
+}
+
+.current-time {
+    font-size: 1.2rem;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 0 5px var(--accent);
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: var(--glass);
+    border: none;
+    border-radius: 20px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    background-color: var(--accent);
+    color: var(--primary);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.weather-card {
+    background-color: var(--glass);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.weather-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.icon {
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.metric {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.value {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.unit {
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+h2 {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Gráfico */
+.chart-container {
+    background-color: var(--glass);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    height: 400px;
+    width: 100%;
+}
+
+/* Efecto de estrellas */
+.starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* Estela del ratón */
+#mouse-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+    
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+}
