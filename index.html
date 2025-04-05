@@ -6,11 +6,14 @@
     <title>Meteo Castro</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
+        <button id="theme-toggle" class="theme-toggle">
+            <i class="fas fa-sun"></i>
+        </button>
+        
         <header>
             <h1 class="title">Meteo Castro</h1>
             <div class="current-time" id="current-time">--:--</div>
@@ -26,8 +29,9 @@
                     <i class="fas fa-thermometer-half icon"></i>
                     <div class="metric">
                         <span class="value" id="temperature">--</span>
-                        <span class="unit">°C</span>
+                        <span class="unit" id="temp-unit">°C</span>
                     </div>
+                    <button id="unit-toggle" class="unit-toggle">°F</button>
                     <h2>Temperatura</h2>
                 </div>
                 <div class="weather-card">
