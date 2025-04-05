@@ -1,9 +1,25 @@
 :root {
+    /* Variables para el modo oscuro (predeterminado) */
     --primary: #1a237e;
     --secondary: #4a148c;
     --accent: #00b0ff;
     --text: #e8eaf6;
-    --glass: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --star-color: white;
+    --star-shadow: 0 0 10px var(--accent);
+    --star-count: 500; /* Cantidad de estrellas en modo oscuro */
+}
+
+/* Variables para el modo claro */
+body.light-mode {
+    --primary: #e0e0ff;
+    --secondary: #ffffff;
+    --accent: #2979ff;
+    --text: #1a237e;
+    --card-bg: rgba(0, 0, 0, 0.05);
+    --star-color: #00b0ff;
+    --star-shadow: 0 0 10px var(--accent);
+    --star-count: 2500; /* 5 veces más estrellas en modo claro */
 }
 
 body {
@@ -14,6 +30,7 @@ body {
     overflow: hidden;
     position: relative;
     font-family: 'Montserrat', sans-serif;
+    transition: background 0.5s ease;
 }
 
 .container {
@@ -42,18 +59,47 @@ header {
 .current-time {
     font-size: 1.2rem;
     margin: 0;
-    text-align: center;
+    padding-left: 20px; /* Añadir padding a la izquierda para separar */
+    text-align: left; /* Alineado a la izquierda */
     text-shadow: 0 0 5px var(--accent);
+    width: 40%; /* Asignar un ancho para evitar sobreposición */
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 50%;
+    color: var(--text);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--accent);
 }
 
 .tabs {
     display: flex;
     gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
 }
 
 .tab {
     padding: 10px 20px;
-    background-color: var(--glass);
+    background-color: var(--card-bg);
     border: none;
     border-radius: 20px;
     color: var(--text);
@@ -64,7 +110,7 @@ header {
 
 .tab.active {
     background-color: var(--accent);
-    color: var(--primary);
+    color: var(--secondary);
     box-shadow: 0 0 15px var(--accent);
 }
 
@@ -78,12 +124,12 @@ header {
 
 .weather-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
 }
 
 .weather-card {
-    background-color: var(--glass);
+    background-color: var(--card-bg);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 20px;
@@ -92,6 +138,9 @@ header {
     align-items: center;
     transition: transform 0.3s ease;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    box-sizing: border-box;
+    position: relative; /* Para posicionamiento absoluto del botón */
 }
 
 .weather-card:hover {
@@ -109,6 +158,8 @@ header {
     display: flex;
     align-items: baseline;
     margin-bottom: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .value {
@@ -121,6 +172,25 @@ header {
     margin-left: 5px;
 }
 
+.unit-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    background-color: var(--accent);
+    color: var(--secondary);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.unit-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent);
+}
+
 h2 {
     margin: 10px 0 0;
     font-size: 1.2rem;
@@ -130,13 +200,14 @@ h2 {
 
 /* Gráfico */
 .chart-container {
-    background-color: var(--glass);
+    background-color: var(--card-bg);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     height: 400px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 /* Efecto de estrellas */
@@ -154,10 +225,10 @@ h2 {
     position: absolute;
     width: 2px;
     height: 2px;
-    background: white;
+    background: var(--star-color);
     border-radius: 50%;
     animation: twinkle 3s infinite;
-    box-shadow: 0 0 10px var(--accent);
+    box-shadow: var(--star-shadow);
 }
 
 @keyframes twinkle {
@@ -178,11 +249,21 @@ h2 {
 @media (max-width: 768px) {
     header {
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
+        align-items: center;
     }
     
     .title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
+    
+    .current-time {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+        padding-left: 0;
     }
     
     .weather-grid {
@@ -191,5 +272,19 @@ h2 {
     
     .chart-container {
         height: 300px;
+    }
+    
+    .weather-card {
+        padding: 15px;
+    }
+    
+    .value {
+        font-size: 2rem;
+    }
+    
+    .theme-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
     }
 }
