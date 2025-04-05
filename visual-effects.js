@@ -1,7 +1,13 @@
-// Efecto de estrellas (mantenido igual)
+// Efecto de estrellas (actualizado para soportar variable cantidad)
 function createStarfield() {
     const container = document.querySelector('.starfield');
-    const starCount = 500;
+    
+    // Limpiar estrellas existentes
+    container.innerHTML = '';
+    
+    // Determinar cantidad basado en el tema actual
+    const isLightMode = document.body.classList.contains('light-mode');
+    const starCount = isLightMode ? 2500 : 500; // 5 veces más en modo claro
 
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
@@ -11,12 +17,13 @@ function createStarfield() {
             top: ${Math.random() * 100}%;
             animation-duration: ${Math.random() * 3 + 2}s;
             animation-delay: ${Math.random() * 2}s;
+            opacity: ${Math.random() * 0.7 + 0.3};
         `;
         container.appendChild(star);
     }
 }
 
-// Efecto de estela del ratón (modificado)
+// Efecto de estela del ratón (mantenido igual)
 function initMouseTrail() {
     const canvas = document.getElementById('mouse-trail');
     const ctx = canvas.getContext('2d');
@@ -115,4 +122,9 @@ function initMouseTrail() {
 document.addEventListener('DOMContentLoaded', () => {
     createStarfield();
     initMouseTrail();
+    
+    // Recrear estrellas cuando cambia el tema
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+        setTimeout(createStarfield, 200); // Pequeño retardo para asegurar que las clases CSS ya han cambiado
+    });
 });
