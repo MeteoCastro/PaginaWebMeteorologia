@@ -13,10 +13,48 @@ const humidityElement = document.getElementById('humidity');
 const precipitationElement = document.getElementById('precipitation');
 const timeElement = document.getElementById('current-time');
 
+// Variables para el manejo de unidades
+let isFahrenheit = false;
+let currentTemperatureCelsius = 0;
+
 // Inicializar gráfico
 let weatherChart = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Configuración del tema
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Verificar si hay una preferencia de tema guardada
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    // Manejar el cambio de tema
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        
+        if (document.body.classList.contains('light-mode')) {
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        // Actualizar el gráfico con los colores del nuevo tema
+        if (weatherChart) {
+            updateChartTheme();
+        }
+    });
+    
+    // Configuración del botón de unidades de temperatura
+    const unitToggle = document.getElementById('unit-toggle');
+    unitToggle.addEventListener('click', toggleTemperatureUnit);
+    
     // Manejo de pestañas
     const tabs = document.querySelectorAll('.tab');
     
@@ -50,18 +88,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // Actualizar los datos cada 5 minutos (300000 ms)
     setInterval(updateDashboard, 300000);
     
-    // Actualizar el reloj cada minuto
+    // Actualizar el reloj cada segundo para mayor precisión
     updateClock();
-    setInterval(updateClock, 60000);
+    setInterval(updateClock, 1000);
 });
+
+function toggleTemperatureUnit() {
+    isFahrenheit = !isFahrenheit;
+    
+    // Cambiar el texto del botón
+    const unitToggle = document.getElementById('unit-toggle');
+    if (isFahrenheit) {
+        unitToggle.textContent = '°C';
+        // Convertir a Fahrenheit
+        const tempF = (currentTemperatureCelsius * 9/5) + 32;
+        tempElement.textContent = tempF.toFixed(1);
+        document.getElementById('temp-unit').textContent = '°F';
+    } else {
+        unitToggle.textContent = '°F';
+        // Mostrar en Celsius
+        tempElement.textContent = currentTemperatureCelsius.toFixed(1);
+        document.getElementById('temp-unit').textContent = '°C';
+    }
+}
 
 async function updateDashboard() {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
         
-        // Actualizar métricas
-        tempElement.textContent = data.field1 || '--';
+        // Guardar la temperatura en Celsius para conversiones
+        currentTemperatureCelsius = parseFloat(data.field1) || 0;
+        
+        // Actualizar métricas según la unidad actual
+        if (isFahrenheit) {
+            const tempF = (currentTemperatureCelsius * 9/5) + 32;
+            tempElement.textContent = tempF.toFixed(1);
+        } else {
+            tempElement.textContent = currentTemperatureCelsius.toFixed(1);
+        }
+        
+        // Actualizar humedad y precipitación
         humidityElement.textContent = data.field2 || '--';
         precipitationElement.textContent = data.field3 || '--';
         
@@ -75,13 +142,31 @@ async function updateDashboard() {
 }
 
 function updateClock() {
-    // Actualizar hora
+    // Actualizar hora cada segundo
     const now = new Date();
-    timeElement.textContent = now.toLocaleTimeString('es-ES', {
+    const options = { 
         weekday: 'long',
         hour: '2-digit',
-        minute: '2-digit'
-    }).replace(/^\w/, c => c.toUpperCase());
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    
+    timeElement.textContent = now.toLocaleTimeString('es-ES', options)
+        .replace(/^\w/, c => c.toUpperCase());
+}
+
+function updateChartTheme() {
+    const isLightMode = document.body.classList.contains('light-mode');
+    const textColor = isLightMode ? '#1a237e' : '#ffffff';
+    const gridColor = isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
+    
+    weatherChart.options.scales.x.grid.color = gridColor;
+    weatherChart.options.scales.y.grid.color = gridColor;
+    weatherChart.options.scales.x.ticks.color = textColor;
+    weatherChart.options.scales.y.ticks.color = textColor;
+    weatherChart.options.plugins.legend.labels.color = textColor;
+    
+    weatherChart.update();
 }
 
 async function updateChart() {
@@ -167,6 +252,10 @@ function formatDataFor30MinIntervals(feeds) {
 
 function initializeChart() {
     const ctx = document.getElementById('weatherChart').getContext('2d');
+    const isLightMode = document.body.classList.contains('light-mode');
+    const textColor = isLightMode ? '#1a237e' : '#ffffff';
+    const gridColor = isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
+    
     weatherChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -174,7 +263,7 @@ function initializeChart() {
             datasets: [{
                 label: 'Temperatura (°C)',
                 data: Array(24).fill(null),
-                borderColor: '#ffffff',
+                borderColor: '#ff6384',
                 tension: 0.4,
                 spanGaps: true // Conectar líneas a través de valores nulos
             },
@@ -199,7 +288,7 @@ function initializeChart() {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#ffffff'
+                        color: textColor
                     }
                 },
                 tooltip: {
@@ -213,10 +302,10 @@ function initializeChart() {
             scales: {
                 x: {
                     grid: {
-                        color: 'rgba(255,255,255,0.1)'
+                        color: gridColor
                     },
                     ticks: {
-                        color: '#ffffff',
+                        color: textColor,
                         maxRotation: 45,
                         minRotation: 45,
                         callback: function(value, index, values) {
@@ -227,16 +316,17 @@ function initializeChart() {
                 },
                 y: {
                     grid: {
-                        color: 'rgba(255,255,255,0.1)'
+                        color: gridColor
                     },
                     ticks: {
-                        color: '#ffffff'
+                        color: textColor
                     }
                 }
-            }
+          // Continuación del código desde donde se quedó en options.scales.y
         }
-    });
-    
-    // Cargar datos iniciales del gráfico
-    updateChart();
+    }
+});
+
+// Cargar datos iniciales del gráfico
+updateChart();
 }
