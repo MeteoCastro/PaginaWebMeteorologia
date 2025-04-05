@@ -1,6 +1,6 @@
 // Configuración de ThingSpeak
-const CHANNEL_ID = "2900882";
-const READ_API_KEY = "MXELEA8B0RMWVU8K"; // Usar READ API KEY
+const CHANNEL_ID = "2906469";
+const READ_API_KEY = "2UL4L7DNEE1B8TDB"; // Usar READ API KEY
 const API_URL = `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json?api_key=${READ_API_KEY}`;
 
 // Para obtener datos de las últimas 12 horas con más entradas
