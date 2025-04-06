@@ -335,26 +335,47 @@ h2 {
 }
 
 /* Fix para evitar que la precipitación se corte en móvil */
+/* Fix para evitar que la precipitación se corte en móvil */
 @media (max-width: 480px) {
     .weather-card {
         padding: 15px 10px;
     }
-
+    
     .metric {
         flex-direction: row;
         justify-content: center;
         align-items: baseline;
         width: 100%;
     }
-
+    
     .value, .unit {
         display: inline-block;
         word-break: normal;
     }
-
+    
     h2 {
         font-size: 1.1rem;
         width: 100%;
         text-align: center;
+    }
+}
+
+/* Fix para permitir scroll en móvil */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+    }
+    
+    .container {
+        overflow-y: visible;
+        height: auto;
+    }
+    
+    .starfield {
+        position: fixed;
+        pointer-events: none;
     }
 }
