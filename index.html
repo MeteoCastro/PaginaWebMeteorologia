@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteo Castro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <button id="theme-toggle" class="theme-toggle">
+    <i class="fas fa-sun"></i>
+    </button>
+
+    <header>
+    <h1 class="title">Meteo Castro</h1>
+    <div class="current-time" id="current-time">--:--</div>
+    <div class="tabs">
+    <button class="tab active" data-tab="main">Principal</button>
+    <button class="tab" data-tab="historical">Histórico</button>
+    </div>
+    </header>
+
+    <main class="tab-content active" id="main">
+    <div class="weather-grid">
+    <div class="weather-card">
+    <i class="fas fa-thermometer-half icon"></i>
+    <div class="metric">
+    <span class="value" id="temperature">--</span>
+    <span class="unit" id="temp-unit">°C</span>
+    </div>
+    <button id="unit-toggle" class="unit-toggle">°F</button>
+    <h2>Temperatura</h2>
+    </div>
+    <div class="weather-card">
+    <i class="fas fa-tint icon"></i>
+    <div class="metric">
+    <span class="value" id="humidity">--</span>
+    <span class="unit">%</span>
+    </div>
+    <h2>Humedad</h2>
+    </div>
+    <div class="weather-card">
+    <i class="fas fa-cloud-rain icon"></i>
+    <div class="metric">
+    <span class="value" id="precipitation">--</span>
+    <span class="unit">ml</span>
+    </div>
+    <h2>Precipitación</h2>
+    </div>
+    </div>
+
+    <!-- Nuevo contenedor para el mapa -->
+    <div class="map-container">
+        <h2>Ubicación de la Estación Meteorológica</h2>
+        <img id="map-image" class="map-image" src="mapa.PNG" alt="Mapa de ubicación del Colegio El Castro, Vigo">
+        <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Colegio El Castro, Vigo</p>
+    </div>
+    </main>
+
+    <div class="tab-content" id="historical">
+    <div class="chart-container">
+    <canvas id="weatherChart"></canvas>
+    </div>
+    </div>
+    </div>
+
+    <!-- Elementos para efectos visuales -->
+    <div class="starfield"></div>
+    <canvas id="mouse-trail"></canvas>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="visual-effects.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

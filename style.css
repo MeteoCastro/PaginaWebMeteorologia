@@ -1,0 +1,360 @@
+
+:root {
+    /* Variables para el modo oscuro (predeterminado) */
+    --primary: #1a237e;
+    --secondary: #4a148c;
+    --accent: #00b0ff;
+    --text: #e8eaf6;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --star-color: white;
+    --star-shadow: 0 0 10px var(--accent);
+    --star-count: 500; /* Cantidad de estrellas en modo oscuro */
+}
+
+/* Variables para el modo claro */
+body.light-mode {
+    --primary: #e0e0ff;
+    --secondary: #ffff;
+    --accent: #2979ff;
+    --text: #1a237e;
+    --card-bg: rgba(0, 0, 0, 0.05);
+    --star-color: #00b0ff;
+    --star-shadow: 0 0 10px var(--accent);
+    --star-count: 1000; /* 5 veces más estrellas en modo claro */
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: var(--text);
+    overflow: hidden;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    transition: background 0.5s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.title {
+    margin: 0;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px var(--accent);
+}
+
+.current-time {
+    font-size: 1.2rem;
+    margin: 0;
+    padding-left: 20px; /* Añadir padding a la izquierda para separar */
+    text-align: left; /* Alineado a la izquierda */
+    text-shadow: 0 0 5px var(--accent);
+    width: 40%; /* Asignar un ancho para evitar sobreposición */
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 50%;
+    color: var(--text);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 20px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    background-color: var(--accent);
+    color: var(--secondary);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.weather-card {
+    background-color: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    box-sizing: border-box;
+    position: relative; /* Para posicionamiento absoluto del botón */
+}
+
+.weather-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.icon {
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.metric {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.value {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.unit {
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+.unit-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    background-color: var(--accent);
+    color: var(--secondary);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.unit-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+h2 {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Gráfico */
+.chart-container {
+    background-color: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    height: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Mapa */
+.map-container {
+    background-color: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.map-container h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.map-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto de estrellas */
+.starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--star-color);
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+    box-shadow: var(--star-shadow);
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* Estela del ratón */
+#mouse-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+    }
+
+    .current-time {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .weather-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-container {
+        height: 300px;
+    }
+
+    .weather-card {
+        padding: 15px;
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .value {
+        font-size: 2rem;
+        word-break: break-word;
+    }
+
+    .theme-toggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .metric {
+        width: 100%;
+        text-align: center;
+    }
+
+    .map-container {
+        height: auto;
+    }
+
+    .map-image {
+        height: 200px;
+    }
+}
+
+/* Fix para evitar que la precipitación se corte en móvil */
+@media (max-width: 480px) {
+    .weather-card {
+        padding: 15px 10px;
+    }
+
+    .metric {
+        flex-direction: row;
+        justify-content: center;
+        align-items: baseline;
+        width: 100%;
+    }
+
+    .value, .unit {
+        display: inline-block;
+        word-break: normal;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+    }
+}
