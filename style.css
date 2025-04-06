@@ -335,47 +335,37 @@ h2 {
 }
 
 /* Fix para evitar que la precipitación se corte en móvil */
-/* Fix para evitar que la precipitación se corte en móvil */
-@media (max-width: 480px) {
-    .weather-card {
-        padding: 15px 10px;
-    }
-    
-    .metric {
-        flex-direction: row;
-        justify-content: center;
-        align-items: baseline;
-        width: 100%;
-    }
-    
-    .value, .unit {
-        display: inline-block;
-        word-break: normal;
-    }
-    
-    h2 {
-        font-size: 1.1rem;
-        width: 100%;
-        text-align: center;
-    }
-}
-
-/* Fix para permitir scroll en móvil */
+/* Fix definitivo para permitir scroll en móvil */
 @media (max-width: 768px) {
-    body {
-        overflow-y: auto;
+    html, body {
         height: auto;
         min-height: 100%;
-        overflow: visible;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        position: relative;
+    }
+    
+    body {
+        overflow: visible !important;
     }
     
     .container {
-        overflow-y: visible;
+        overflow: visible !important;
         height: auto;
+        min-height: 100vh;
+        padding-bottom: 50px;
     }
     
     .starfield {
         position: fixed;
-        pointer-events: none;
+        z-index: -1;
+    }
+    
+    #mouse-trail {
+        display: none; /* Desactivar trail en móvil para mejor rendimiento */
+    }
+    
+    .tab-content.active {
+        overflow: visible;
     }
 }
